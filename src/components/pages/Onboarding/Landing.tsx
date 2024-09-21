@@ -2,6 +2,7 @@ import { Box, VStack, Text, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import iceShardsIcon from '/icons/iceShards.svg';
+import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
 
 const Landing = () => {
 	const navigate = useNavigate();
@@ -9,9 +10,7 @@ const Landing = () => {
 	return (
 		<VStack height={"100%"} justifyContent="space-between" align="center">
 			{/* Icon */}
-			<Box display="flex" justifyContent="center">
-				<Image src={iceShardsIcon} alt="Ice Shards Icon" boxSize="200px" />
-			</Box>
+			<ExtensionIcon size="200px" />
 
 			{/* Title */}
 			<Text fontSize="4xl" fontWeight="bold" textAlign="center">
