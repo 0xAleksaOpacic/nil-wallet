@@ -1,16 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
-import { dividerTheme } from './divider.ts';
-import { buttonTheme } from './button.ts';
 
 const theme = extendTheme({
 	components: {
-		Text: {
-			baseStyle: () => ({
-				color: 'white'
-			})
-		},
-		Button: buttonTheme,
-		Divider: dividerTheme
 	},
 	styles: {
 	},
@@ -21,8 +12,18 @@ const theme = extendTheme({
 		wallet: {
 			darkBlue: '#2759a0',
 			lightBlue: '#0AB7F5',
-			gray: '#A7A9AC',
+			lightGray: '#e5e5e5',
 			black: '#080808'
+		},
+		gray: {
+			100: '#e5e5e5',
+			200: '#d4d4d4',
+			300: '#bcbcbc',
+		},
+		blue:{
+			100: '#2759a0',
+			200: '#234f8e',
+			300: '#1f457c',
 		}
 	}
 });

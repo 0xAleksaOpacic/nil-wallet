@@ -1,6 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-import onboardingWallpaper from '../../assets/onboardingWallpaper.png';
+import onboardingWallpaper from '/onboardingWallpaper.png';
 
 const OnboardingLayout = () => {
 	return (
