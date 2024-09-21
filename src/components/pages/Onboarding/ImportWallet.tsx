@@ -1,7 +1,8 @@
 import { Box, Button, VStack, Text, Image, Input } from "@chakra-ui/react";
 import importWalletIcon from '/icons/importWallet.svg';
 import {useNavigate} from "react-router-dom";
-import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx"; // Ensure this path is correct
+import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
+import OnboardingButton from "../../atoms/OnboardingButton.tsx"; // Ensure this path is correct
 
 const ImportWallet = () => {
 	const navigate = useNavigate();
@@ -37,17 +38,9 @@ const ImportWallet = () => {
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}
-			<Box width="90%">
-				<Button
-					colorScheme="blue"
-					bg="wallet.lightBlue"
-					width="100%"
-					py={7}
-					onClick={() => navigate('/onboarding/set-password')}
-				>
-					Continue
-				</Button>
-			</Box>
+			<OnboardingButton onClick={() => navigate('/onboarding/set-password')}>
+				Continue
+			</OnboardingButton>
 		</VStack>
 	);
 };

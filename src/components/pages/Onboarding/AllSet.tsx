@@ -1,5 +1,6 @@
 import { Box, Button, VStack, Text, Image } from "@chakra-ui/react";
-import iceShardsIcon from '/icons/iceShards.svg'; // Ensure this path is correct
+import iceShardsIcon from '/icons/iceShards.svg';
+import OnboardingButton from "../../atoms/OnboardingButton.tsx"; // Ensure this path is correct
 
 const AllSet = () => {
 	return (
@@ -23,17 +24,9 @@ const AllSet = () => {
 			</VStack>
 
 			{/* Bottom Section: Open Extension Button */}
-			<Box width="90%">
-				<Button
-					colorScheme="blue"
-					bg="wallet.lightBlue"
-					width="100%"
-					py={7}
-					onClick={() => { /* Handle open extension */ }}
-				>
-					Open Extension
-				</Button>
-			</Box>
+			<OnboardingButton onClick={() => { /* Handle open extension */ }}>
+				Open Extension
+			</OnboardingButton>
 		</VStack>
 	);
 };

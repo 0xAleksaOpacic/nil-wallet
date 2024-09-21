@@ -3,6 +3,7 @@ import lockIcon from '/icons/lock.svg'; // Ensure this path is correct
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
+import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 
 const SetPassword = () => {
 	const navigate = useNavigate();
@@ -68,17 +69,9 @@ const SetPassword = () => {
 			</VStack>
 
 			{/* Bottom Section: Start Button */}
-			<Box width="90%">
-				<Button
-					colorScheme="blue"
-					bg="wallet.lightBlue"
-					width="100%"
-					py={7}
-					onClick={handleStart}
-				>
-					Start
-				</Button>
-			</Box>
+			<OnboardingButton onClick={handleStart}>
+				Start
+			</OnboardingButton>
 		</VStack>
 	);
 };

@@ -1,6 +1,7 @@
 import { Box, Button, VStack, Text, Image } from "@chakra-ui/react";
 import iceShardsIcon from '/icons/iceShards.svg';
 import { useNavigate } from "react-router-dom";
+import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 
 const Landing = () => {
 	const navigate = useNavigate();
@@ -19,26 +20,14 @@ const Landing = () => {
 			</Text>
 
 			{/* Buttons */}
-			<VStack spacing={4} width="90%">
-				<Button
-					colorScheme="blue"
-					bg="wallet.lightBlue"
-					width="100%"
-					py={7}
-					onClick={() => navigate('create-wallet')}
-				>
+			<VStack spacing={4} width={"100%"}>
+				<OnboardingButton onClick={() => navigate('create-wallet')}>
 					Create a wallet
-				</Button>
+				</OnboardingButton>
 
-				<Button
-					colorScheme="gray"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					onClick={() => navigate('import-wallet')}
-				>
+				<OnboardingButton colorScheme="gray" bg="wallet.lightGray" onClick={() => navigate('import-wallet')}>
 					I already have a wallet
-				</Button>
+				</OnboardingButton>
 			</VStack>
 		</VStack>
 	);
