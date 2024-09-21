@@ -38,6 +38,7 @@ const CreateWallet = () => {
 				</Select>
 			</VStack>
 
+			{/* Bottom Section: Continue Button */}
 			<OnboardingButton onClick={() => navigate('/onboarding/set-password')}>
 				Continue
 			</OnboardingButton>

@@ -9,16 +9,16 @@ const Landing = () => {
 
 	return (
 		<VStack height={"100%"} justifyContent="space-between" align="center">
-			{/* Icon */}
+			{/* Top Section: Icon */}
 			<ExtensionIcon size="200px" />
 
-			{/* Title */}
+			{/* Middle Section: Titles */}
 			<Text fontSize="4xl" fontWeight="bold" textAlign="center">
 				<Text as="span" color="wallet.black">=nil;</Text>{' '}
 				<Text as="span" color="wallet.lightBlue">Extension</Text>
 			</Text>
 
-			{/* Buttons */}
+			{/* Bottom Section: Buttons */}
 			<VStack spacing={4} width={"100%"}>
 				<OnboardingButton onClick={() => navigate('create-wallet')}>
 					Create a wallet
