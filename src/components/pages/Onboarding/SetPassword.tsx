@@ -2,6 +2,7 @@ import { Box, Button, VStack, Text, Image, Input, Spinner } from "@chakra-ui/rea
 import lockIcon from '/icons/lock.svg'; // Ensure this path is correct
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 
 const SetPassword = () => {
 	const navigate = useNavigate();
@@ -37,22 +38,11 @@ const SetPassword = () => {
 			)}
 
 			{/* Top Section: Icon and Title/Subtitles */}
-			<VStack spacing={2} align="center" paddingTop={8}>
-				{/* Icon */}
-				<Box display="flex" justifyContent="center" p={0} m={0}>
-					<Image src={lockIcon} alt="Lock Icon" boxSize="70px" p={0} m={0} />
-				</Box>
-
-				{/* Title and Subtitle */}
-				<VStack align="center">
-					<Text fontSize="2xl" fontWeight="bold" textAlign="center">
-						Create Password
-					</Text>
-					<Text fontSize="md" color="gray.500" textAlign="center">
-						This password will be used to <br /> secure and unlock your wallet
-					</Text>
-				</VStack>
-			</VStack>
+			<OnboardingStepHeader
+				iconSrc={lockIcon}
+				title="Create Password"
+				subtitle={<><span>This password will be used to</span><br /><span>secure and unlock your wallet</span></>}
+			/>
 
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>

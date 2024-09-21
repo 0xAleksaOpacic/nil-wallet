@@ -7,16 +7,16 @@ const Landing = () => {
 
 	return (
 		<VStack height={"100%"} justifyContent="space-between" align="center">
+			{/* Icon */}
+			<Box display="flex" justifyContent="center">
+				<Image src={iceShardsIcon} alt="Ice Shards Icon" boxSize="200px" />
+			</Box>
+
 			{/* Title */}
 			<Text fontSize="4xl" fontWeight="bold" textAlign="center">
 				<Text as="span" color="wallet.black">=nil;</Text>{' '}
 				<Text as="span" color="wallet.lightBlue">Extension</Text>
 			</Text>
-
-			{/* Icon */}
-			<Box display="flex" justifyContent="center">
-				<Image src={iceShardsIcon} alt="Ice Shards Icon" boxSize="200px" />
-			</Box>
 
 			{/* Buttons */}
 			<VStack spacing={4} width="90%">
