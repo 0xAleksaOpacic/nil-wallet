@@ -1,9 +1,41 @@
-import { Box, Button, VStack, Text, Image, Input } from "@chakra-ui/react";
+import { Box, Button, VStack, Text, Image, Input, Spinner } from "@chakra-ui/react";
 import lockIcon from '/icons/lock.svg'; // Ensure this path is correct
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SetPassword = () => {
+	const navigate = useNavigate();
+
+	const [loading, setLoading] = useState(false);
+
+	const handleStart = () => {
+		setLoading(true);
+		setTimeout(() => {
+			navigate('/onboarding/all-set');
+		}, 2000);
+	};
+
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
+			{/* Overlay */}
+			{loading && (
+				<Box
+					position="absolute"
+					top="0"
+					left="0"
+					width="100%"
+					height="100%"
+					bg="rgba(0, 0, 0, 0.5)"
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					zIndex={1}
+					borderRadius="35"
+				>
+					<Spinner size="xl" color="white" />
+				</Box>
+			)}
+
 			{/* Top Section: Icon and Title/Subtitles */}
 			<VStack spacing={2} align="center" paddingTop={8}>
 				{/* Icon */}
@@ -52,7 +84,7 @@ const SetPassword = () => {
 					bg="wallet.lightBlue"
 					width="100%"
 					py={7}
-					onClick={() => { /* Handle password set */ }}
+					onClick={handleStart}
 				>
 					Start
 				</Button>
