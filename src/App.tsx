@@ -1,11 +1,13 @@
 import React from 'react';
-import './App.css';
+import { ChakraProvider } from '@chakra-ui/react';
+import theme from './theme/theme.ts';
+import AppRouter from './router/AppRouter.tsx';
 
 function App() {
   return (
-    <div className="App">
-      test
-    </div>
+      <ChakraProvider theme={theme}>
+          <AppRouter />
+      </ChakraProvider>
   );
 }
 
