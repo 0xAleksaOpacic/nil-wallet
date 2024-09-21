@@ -1,7 +1,10 @@
 import { Box, Button, VStack, Text, Image, Input } from "@chakra-ui/react";
-import importWalletIcon from '/icons/importWallet.svg'; // Ensure this path is correct
+import importWalletIcon from '/icons/importWallet.svg';
+import {useNavigate} from "react-router-dom"; // Ensure this path is correct
 
 const ImportWallet = () => {
+	const navigate = useNavigate();
+
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
 			{/* Top Section: Icon and Title/Subtitles */}
@@ -50,7 +53,7 @@ const ImportWallet = () => {
 					bg="wallet.lightBlue"
 					width="100%"
 					py={7}
-					onClick={() => { /* Handle form submission */ }}
+					onClick={() => navigate('/onboarding/set-password')}
 				>
 					Continue
 				</Button>
