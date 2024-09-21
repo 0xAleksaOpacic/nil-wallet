@@ -1,8 +1,9 @@
-import { Box, Button, VStack, Text, Image, Input } from "@chakra-ui/react";
-import importWalletIcon from '/icons/importWallet.svg';
+import {VStack } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx"; // Ensure this path is correct
+import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import importWalletIcon from '/icons/importWallet.svg';
 
 const ImportWallet = () => {
 	const navigate = useNavigate();
@@ -19,22 +20,8 @@ const ImportWallet = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Wallet Address Input */}
-				<Input
-					placeholder="Wallet Address"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				/>
-
-				{/* Private Key Input */}
-				<Input
-					placeholder="Private Key"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				/>
+				<OnboardingTextInput placeholder="Wallet Address" />
+				<OnboardingTextInput placeholder="Private Key" />
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}

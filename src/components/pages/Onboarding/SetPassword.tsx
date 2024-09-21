@@ -1,9 +1,11 @@
-import { Box, Button, VStack, Text, Image, Input, Spinner } from "@chakra-ui/react";
-import lockIcon from '/icons/lock.svg'; // Ensure this path is correct
+import { VStack} from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import OnboardingCardLoader from "../../atoms/OnboardingCardLoader.tsx";
+import lockIcon from '/icons/lock.svg';
 
 const SetPassword = () => {
 	const navigate = useNavigate();
@@ -20,23 +22,7 @@ const SetPassword = () => {
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
 			{/* Overlay */}
-			{loading && (
-				<Box
-					position="absolute"
-					top="0"
-					left="0"
-					width="100%"
-					height="100%"
-					bg="rgba(0, 0, 0, 0.5)"
-					display="flex"
-					alignItems="center"
-					justifyContent="center"
-					zIndex={1}
-					borderRadius="35"
-				>
-					<Spinner size="xl" color="white" />
-				</Box>
-			)}
+			{loading && <OnboardingCardLoader />}
 
 			{/* Top Section: Icon and Title/Subtitles */}
 			<OnboardingStepHeader
@@ -48,24 +34,8 @@ const SetPassword = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Password Input */}
-				<Input
-					placeholder="Enter Password"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					type="password"
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				/>
-
-				{/* Confirm Password Input */}
-				<Input
-					placeholder="Confirm Password"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					type="password"
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				/>
+				<OnboardingTextInput placeholder="Enter Password" isPassword={true} />
+				<OnboardingTextInput placeholder="Confirm Password" isPassword={true} />
 			</VStack>
 
 			{/* Bottom Section: Start Button */}

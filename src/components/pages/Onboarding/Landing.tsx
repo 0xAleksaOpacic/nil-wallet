@@ -1,7 +1,7 @@
-import { Box, Button, VStack, Text, Image } from "@chakra-ui/react";
-import iceShardsIcon from '/icons/iceShards.svg';
+import { Box, VStack, Text, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import iceShardsIcon from '/icons/iceShards.svg';
 
 const Landing = () => {
 	const navigate = useNavigate();

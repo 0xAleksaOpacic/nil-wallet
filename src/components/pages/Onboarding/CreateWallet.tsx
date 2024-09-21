@@ -1,8 +1,9 @@
-import { Box, Button, VStack, Text, Image, Input, Select } from "@chakra-ui/react";
-import newWalletIcon from '/icons/newWallet.svg';
+import { VStack, Select } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import newWalletIcon from '/icons/newWallet.svg';
 
 const CreateWallet = () => {
 	const navigate = useNavigate();
@@ -19,13 +20,7 @@ const CreateWallet = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Private Key Input */}
-				<Input
-					placeholder="Private Key"
-					bg="wallet.lightGray"
-					width="100%"
-					py={7}
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				/>
+				<OnboardingTextInput placeholder="Private Key" />
 
 				{/* Shard ID Dropdown */}
 				<Select
