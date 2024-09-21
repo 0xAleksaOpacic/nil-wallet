@@ -13,21 +13,14 @@ const theme = extendTheme({
 		Divider: dividerTheme
 	},
 	styles: {
-		global: () => ({
-			body: {
-				color: 'white',
-				background: '#080808'
-			}
-		})
 	},
 	fonts: {
 		body: 'DM Sans, sans-serif'
 	},
 	colors: {
 		wallet: {
-			orange: '#EF5909',
-			teal: '#78CDD1',
-			green: '#048C80',
+			darkBlue: '#2759a0',
+			lightBlue: '#0AB7F5',
 			gray: '#A7A9AC',
 			black: '#080808'
 		}
