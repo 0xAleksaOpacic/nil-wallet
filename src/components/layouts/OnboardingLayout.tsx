@@ -19,7 +19,7 @@ const OnboardingLayout = () => {
 				left="0"
 				right="0"
 				bottom="0"
-				bg="rgba(0, 0, 0, 0.6)" // This is the grayish overlay with 60% opacity
+				bg="rgba(0, 0, 0, 0.6)"
 			/>
 
 			{/* Centered Card */}

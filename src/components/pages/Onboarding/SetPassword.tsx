@@ -9,7 +9,8 @@ import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
 import OnboardingCardLoader from "../../atoms/OnboardingCardLoader.tsx";
 import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
-import { validatePasswordsMatch } from '../../../utils/onboardingValidation.ts';
+import { validatePasswordsMatch, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import { OnboardingRoutes } from '../../../router/routes.ts';
 
 const SetPassword = () => {
 	const navigate = useNavigate();
@@ -28,15 +29,16 @@ const SetPassword = () => {
 	};
 
 	const handleStart = () => {
-		if (!validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword)) {
-			setError('Passwords do not match');
+		const passwordValidation:ValidationResult = validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword);
+		if (!passwordValidation.isValid) {
+			setError(passwordValidation.error);
 			return;
 		}
 
 		setLoading(true);
 		setTimeout(() => {
 			console.log(onboardingState);
-			navigate('/onboarding/all-set');
+			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.ALL_SET}`)
 		}, 2000);
 	};
 

@@ -8,7 +8,8 @@ import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
 import importWalletIcon from '/icons/importWallet.svg';
 import { RootState } from '../../../store';
 import { useState } from 'react';
-import { validatePrivateKey, validateWalletAddress } from '../../../utils/onboardingValidation.ts';
+import { validatePrivateKey, validateWalletAddress, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import { OnboardingRoutes } from '../../../router/routes.ts';
 
 const ImportWallet = () => {
 	const navigate = useNavigate();
@@ -19,18 +20,20 @@ const ImportWallet = () => {
 	const handleContinueClick = () => {
 		let newErrors = { walletAddress: '', privateKey: '' };
 
-		if (!validateWalletAddress(onboardingState.walletAddress)) {
-			newErrors.walletAddress = 'Invalid wallet address.';
+		const walletValidation:ValidationResult = validateWalletAddress(onboardingState.walletAddress);
+		if (!walletValidation.isValid) {
+			newErrors.walletAddress = walletValidation.error;
 		}
 
-		if (!validatePrivateKey(onboardingState.privateKey)) {
-			newErrors.privateKey = 'Private Key must be a valid ECDSA private key.';
+		const privateKeyValidation:ValidationResult = validatePrivateKey(onboardingState.privateKey);
+		if (!privateKeyValidation.isValid) {
+			newErrors.privateKey = privateKeyValidation.error;
 		}
 
 		setErrors(newErrors);
 
 		if (!newErrors.walletAddress && !newErrors.privateKey) {
-			navigate('/onboarding/set-endpoint');
+			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.SET_ENDPOINT}`);
 		}
 	};
 

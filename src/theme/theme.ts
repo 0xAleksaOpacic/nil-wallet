@@ -1,13 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
-	components: {
-	},
-	styles: {
-	},
-	fonts: {
-		body: 'DM Sans, sans-serif'
-	},
 	colors: {
 		wallet: {
 			darkBlue: '#2759a0',

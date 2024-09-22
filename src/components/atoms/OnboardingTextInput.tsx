@@ -1,4 +1,5 @@
 import { FormControl, FormErrorMessage, Input } from '@chakra-ui/react';
+import React from 'react';
 
 interface IOnboardingTextInputProps {
 	placeholder: string;
@@ -15,7 +16,7 @@ const OnboardingTextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder,
 			bg="wallet.lightGray"
 			width="100%"
 			py={7}
-			type={isPassword ? "password" : "text"} // Set type based on isPassword prop
+			type={isPassword ? "password" : "text"}
 			_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
 			onChange={onChange}
 		/>

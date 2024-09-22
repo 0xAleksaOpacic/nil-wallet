@@ -1,36 +1,53 @@
-const DEFAULT_SHARDS = 5;
-
 // Validates if the given shard ID is within the valid range
-export const validateShardId = (shardId: number): boolean => {
-	return shardId >= 1 && shardId <= DEFAULT_SHARDS;
+import { DEFAULT_SHARDS, RPC_REGEX } from '../config.ts';
+
+export type ValidationResult = {
+	error: string;
+	isValid: boolean;
 };
 
-// Validates if the provided wallet address is valid address
-export const validateWalletAddress = (walletAddress: string): boolean => {
+export const validateShardId = (shardId: number):ValidationResult  => {
+	if (shardId >= 1 && shardId <= DEFAULT_SHARDS) {
+		return { isValid: true, error: "" };
+	}
+	return { isValid: false, error: `Shard ID must be between 1 and ${DEFAULT_SHARDS}` };
+};
+
+// Validates if the provided wallet address is valid
+export const validateWalletAddress = (walletAddress: string):ValidationResult => {
 	const isValidLength = walletAddress.length === 42;
 	const isHex = /^0x[a-fA-F0-9]{40}$/.test(walletAddress);
 	const validPrefixes = Array.from({ length: DEFAULT_SHARDS }, (_, i) => `0x${(i + 1).toString().padStart(4, '0')}`);
 	const hasValidPrefix = validPrefixes.some(prefix => walletAddress.startsWith(prefix));
 
-	console.log(validPrefixes)
-	return isValidLength && isHex && hasValidPrefix;
+	if (isValidLength && isHex && hasValidPrefix) {
+		return { isValid: true, error: "" };
+	}
+	return { isValid: false, error: 'Invalid wallet address' };
 };
 
-// Validates if the provided private key is of valid ECDSA private Key
-export const validatePrivateKey = (privateKey: string): boolean => {
-	const isValidLength =  privateKey.length === 64;
+// Validates if the provided private key is of valid ECDSA private key
+export const validatePrivateKey = (privateKey: string):ValidationResult => {
+	const isValidLength = privateKey.length === 64;
 	const isHex = /^[0-9a-fA-F]+$/.test(privateKey);
-	return isHex && isValidLength;
+	if (isHex && isValidLength) {
+		return { isValid: true, error: "" };
+	}
+	return { isValid: false, error: 'Private Key must be a valid ECDSA private key' };
 };
 
 // Validates if the provided RPC endpoint matches the expected format
-// The format should be: https://api.devnet.nil.foundation/api/$NAME/$TOKEN
-export const validateRpcEndpoint = (rpcEndpoint: string): boolean => {
-	const regex = /^https:\/\/api\.devnet\.nil\.foundation\/api\/.+\/.+$/;
-	return regex.test(rpcEndpoint);
+export const validateRpcEndpoint = (rpcEndpoint: string):ValidationResult => {
+	if (RPC_REGEX.test(rpcEndpoint)) {
+		return { isValid: true, error: "" };
+	}
+	return { isValid: false, error: 'Invalid RPC endpoint format' };
 };
 
 // Checks if the provided password and confirmation password match
-export const validatePasswordsMatch = (password: string, confirmPassword: string): boolean => {
-	return password === confirmPassword;
+export const validatePasswordsMatch = (password: string, confirmPassword: string):ValidationResult => {
+	if (password === confirmPassword) {
+		return { isValid: true, error: "" };
+	}
+	return { isValid: false, error: 'Passwords do not match' };
 };

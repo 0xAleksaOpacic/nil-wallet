@@ -8,7 +8,8 @@ import OnboardingTextInput from "../../atoms/OnboardingTextInput";
 import rpcIcon from '/icons/rpcEndpoint.svg';
 import { RootState } from '../../../store';
 import { useState } from 'react';
-import { validateRpcEndpoint } from '../../../utils/onboardingValidation.ts';
+import { validateRpcEndpoint, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import { OnboardingRoutes } from '../../../router/routes.ts';
 
 const SetRpcEndpoint = () => {
 	const navigate = useNavigate();
@@ -21,12 +22,13 @@ const SetRpcEndpoint = () => {
 		dispatch(setRpcEndpoint(event.target.value));
 	};
 	const handleContinue = () => {
-		if (!validateRpcEndpoint(onboardingState.rpcEndpoint)) {
-			setError('Invalid RPC endpoint format');
+		const rpcValidation:ValidationResult = validateRpcEndpoint(onboardingState.rpcEndpoint);
+		if (!rpcValidation.isValid) {
+			setError(rpcValidation.error);
 			return;
 		}
 
-		navigate('/onboarding/set-password');
+		navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.SET_PASSWORD}`)
 	};
 
 	return (

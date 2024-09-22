@@ -6,19 +6,20 @@ import SetPassword from '../components/pages/Onboarding/SetPassword';
 import AllSet from '../components/pages/Onboarding/AllSet';
 import OnboardingLayout from '../components/layouts/OnboardingLayout';
 import SetEndpoint from "../components/pages/Onboarding/SetEndpoint.tsx";
+import { OnboardingRoutes } from './routes.ts';
 
 const AppRouter = () => (
 	<BrowserRouter>
 		<Routes>
-			<Route path="/onboarding" element={<OnboardingLayout />}>
+			<Route path={OnboardingRoutes.BASE} element={<OnboardingLayout />}>
 				<Route index element={<Landing />} />
-				<Route path="create-wallet" element={<CreateWallet />} />
-				<Route path="import-wallet" element={<ImportWallet />} />
-				<Route path="set-endpoint" element={<SetEndpoint />} />
-				<Route path="set-password" element={<SetPassword />} />
-				<Route path="all-set" element={<AllSet />} />
+				<Route path={OnboardingRoutes.CREATE_WALLET}  element={<CreateWallet />} />
+				<Route path={OnboardingRoutes.IMPORT_WALLET} element={<ImportWallet />} />
+				<Route path={OnboardingRoutes.SET_ENDPOINT} element={<SetEndpoint />} />
+				<Route path={OnboardingRoutes.SET_PASSWORD} element={<SetPassword />} />
+				<Route path={OnboardingRoutes.ALL_SET} element={<AllSet />} />
 			</Route>
-			<Route path="*" element={<Navigate to="/onboarding" />} />
+			<Route path="*" element={<Navigate to={OnboardingRoutes.BASE}  />} />
 		</Routes>
 	</BrowserRouter>
 );

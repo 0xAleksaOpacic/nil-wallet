@@ -1,7 +1,8 @@
 import { Box, Image } from "@chakra-ui/react";
+import React from 'react';
 
 interface IExtensionIconProps {
-	size: string; // You can define a more specific type if needed
+	size: string;
 }
 
 const ExtensionIcon: React.FC<IExtensionIconProps> = ({ size }) => {

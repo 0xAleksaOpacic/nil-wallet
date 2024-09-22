@@ -7,8 +7,10 @@ import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
 import newWalletIcon from '/icons/newWallet.svg';
 import { RootState } from '../../../store';
-import { validatePrivateKey, validateShardId } from '../../../utils/onboardingValidation.ts';
+import { validatePrivateKey, validateShardId, ValidationResult } from '../../../utils/onboardingValidation.ts';
 import { useState } from 'react';
+import { OnboardingRoutes } from '../../../router/routes.ts';
+import { DEFAULT_SHARDS } from '../../../config.ts';
 
 const CreateWallet = () => {
 	const navigate = useNavigate();
@@ -30,18 +32,20 @@ const CreateWallet = () => {
 	const handleContinue = () => {
 		let newErrors = { shardId: "", privateKey: '' }
 
-		if (!validatePrivateKey(onboardingState.privateKey)) {
-			newErrors.privateKey = 'Private Key must be a valid ECDSA private key';
+		const privateKeyValidation:ValidationResult = validatePrivateKey(onboardingState.privateKey);
+		if (!privateKeyValidation.isValid) {
+			newErrors.privateKey = privateKeyValidation.error;
 		}
 
-		if (!validateShardId(onboardingState.shardId)) {
-			newErrors.shardId = 'Please select shard ID';
+		const shardValidation:ValidationResult = validateShardId(onboardingState.shardId);
+		if (!shardValidation.isValid) {
+			newErrors.shardId = shardValidation.error;
 		}
 
 		setErrors(newErrors);
 
 		if(!newErrors.shardId && !newErrors.privateKey){
-			navigate('/onboarding/set-endpoint');
+			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.SET_ENDPOINT}`)
 		}
 	};
 
@@ -73,11 +77,11 @@ const CreateWallet = () => {
 						_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
 						onChange={handleShardChange}
 					>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
+						{Array.from({ length: DEFAULT_SHARDS }, (_, i) => (
+							<option key={i + 1} value={i + 1}>
+								{i + 1}
+							</option>
+						))}
 					</Select>
 					<FormErrorMessage>{errors.shardId}</FormErrorMessage>
 				</FormControl>

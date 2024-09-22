@@ -1,4 +1,5 @@
 import { Box, Text, Image, VStack } from "@chakra-ui/react";
+import React from 'react';
 
 interface IOnboardingStepHeaderProps {
 	iconSrc: string;
