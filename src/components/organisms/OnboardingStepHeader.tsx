@@ -8,7 +8,7 @@ interface IOnboardingStepHeaderProps {
 
 const OnboardingStepHeader: React.FC<IOnboardingStepHeaderProps> = ({ iconSrc, title, subtitle }) => {
 	return (
-		<VStack spacing={2} align="center" paddingTop={8}>
+		<VStack spacing={2} align="center" paddingTop={0}>
 			{/* Icon */}
 			<Box display="flex" justifyContent="center" p={0} m={0}>
 				<Image src={iconSrc} alt={`${title} Icon`} boxSize="70px" p={0} m={0} />
