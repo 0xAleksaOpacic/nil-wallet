@@ -1,12 +1,49 @@
-import { VStack, Select } from "@chakra-ui/react";
+import { VStack, Select, FormErrorMessage, FormControl } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import {setPrivateKey, setShardId} from '../../../store/onboardingSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
 import newWalletIcon from '/icons/newWallet.svg';
+import { RootState } from '../../../store';
+import { validatePrivateKey, validateShardId } from '../../../utils/onboardingValidation.ts';
+import { useState } from 'react';
 
 const CreateWallet = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const onboardingState = useSelector((state: RootState) => state.onboarding);
+	const [errors, setErrors] = useState({ shardId: "", privateKey: '' });
+
+
+	const handlePrivateKeyChange = (event) => {
+		setErrors({ ...errors, privateKey: '' });
+		dispatch(setPrivateKey(event.target.value));
+	};
+
+	const handleShardChange = (event) => {
+		setErrors({ ...errors, shardId: '' });
+		dispatch(setShardId(Number(event.target.value)));
+	};
+
+	const handleContinue = () => {
+		let newErrors = { shardId: "", privateKey: '' }
+
+		if (!validatePrivateKey(onboardingState.privateKey)) {
+			newErrors.privateKey = 'Private Key must be a valid ECDSA private key';
+		}
+
+		if (!validateShardId(onboardingState.shardId)) {
+			newErrors.shardId = 'Please select shard ID';
+		}
+
+		setErrors(newErrors);
+
+		if(!newErrors.shardId && !newErrors.privateKey){
+			navigate('/onboarding/set-endpoint');
+		}
+	};
 
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
@@ -20,26 +57,34 @@ const CreateWallet = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Private Key Input */}
-				<OnboardingTextInput placeholder="Private Key" />
+				<OnboardingTextInput
+					placeholder="Private Key"
+					onChange={handlePrivateKeyChange}
+					error={errors.privateKey}
+				/>
 
 				{/* Shard ID Dropdown */}
-				<Select
-					placeholder="Shard ID"
-					bg="wallet.lightGray"
-					width="100%"
-					py={2}
-					_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
-				>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="4">4</option>
-					<option value="5">5</option>
-				</Select>
+				<FormControl isInvalid={!!errors.shardId}>
+					<Select
+						placeholder="Shard ID"
+						bg="wallet.lightGray"
+						width="100%"
+						py={2}
+						_focus={{ borderColor: "wallet.lightBlue", boxShadow: "0 0 0 1px wallet.lightBlue" }}
+						onChange={handleShardChange}
+					>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+					</Select>
+					<FormErrorMessage>{errors.shardId}</FormErrorMessage>
+				</FormControl>
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}
-			<OnboardingButton onClick={() => navigate('/onboarding/set-endpoint')}>
+			<OnboardingButton onClick={handleContinue}>
 				Continue
 			</OnboardingButton>
 		</VStack>

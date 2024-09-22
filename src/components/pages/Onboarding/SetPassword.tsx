@@ -1,20 +1,41 @@
-import { VStack} from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { setPassword, setConfirmPassword } from '../../../store/onboardingSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
 import OnboardingCardLoader from "../../atoms/OnboardingCardLoader.tsx";
 import lockIcon from '/icons/lock.svg';
+import { RootState } from '../../../store';
+import { validatePasswordsMatch } from '../../../utils/onboardingValidation.ts';
 
 const SetPassword = () => {
 	const navigate = useNavigate();
-
+	const dispatch = useDispatch();
+	const onboardingState = useSelector((state: RootState) => state.onboarding);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+
+	const handlePasswordChange = (event) => {
+		setError("");
+		dispatch(setPassword(event.target.value));
+	};
+
+	const handleConfirmPasswordChange = (event) => {
+		dispatch(setConfirmPassword(event.target.value));
+	};
 
 	const handleStart = () => {
+		if (!validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword)) {
+			setError('Passwords do not match');
+			return;
+		}
+
 		setLoading(true);
 		setTimeout(() => {
+			console.log(onboardingState);
 			navigate('/onboarding/all-set');
 		}, 2000);
 	};
@@ -34,8 +55,19 @@ const SetPassword = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Password Input */}
-				<OnboardingTextInput placeholder="Enter Password" isPassword={true} />
-				<OnboardingTextInput placeholder="Confirm Password" isPassword={true} />
+				<OnboardingTextInput
+					placeholder="Enter Password"
+					isPassword={true}
+					onChange={handlePasswordChange}
+					error={error}
+				/>
+				{/* Confirm Password Input */}
+				<OnboardingTextInput
+					placeholder="Confirm Password"
+					isPassword={true}
+					onChange={handleConfirmPasswordChange}
+					error={error}
+				/>
 			</VStack>
 
 			{/* Bottom Section: Start Button */}

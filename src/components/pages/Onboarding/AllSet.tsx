@@ -1,6 +1,5 @@
-import {Box, Text, Image, VStack} from "@chakra-ui/react";
+import {Text , VStack} from "@chakra-ui/react";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
-import iceShardsIcon from '/icons/iceShards.svg';
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
 
 const AllSet = () => {
