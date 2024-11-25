@@ -1,4 +1,4 @@
-export async function focusOrCreateOnboardingTab(page?: string): Promise<void> {
+export async function focusOrCreateOnboardingTab(): Promise<void> {
   const extension = await chrome.management.getSelf();
 
   const tabs = await chrome.tabs.query({
@@ -6,7 +6,7 @@ export async function focusOrCreateOnboardingTab(page?: string): Promise<void> {
   });
   const tab = tabs[0];
 
-  const url = `onboarding.html#/${page || ""}`; // Adjust as needed for your routes
+  const url = `onboarding.html#`;
 
   if (!tab?.id) {
     await chrome.tabs.create({ url });
@@ -17,10 +17,12 @@ export async function focusOrCreateOnboardingTab(page?: string): Promise<void> {
   await chrome.tabs.update(tab.id, { active: true });
 }
 
-export async function openPopup(): Promise<void> {
-  try {
-    await chrome.action.openPopup();
-  } catch (error) {
-    console.error("Error opening popup:", error);
-  }
+export async function isOnboarded(): Promise<boolean> {
+  const data = await chrome.storage.local.get("onboardingComplete");
+  return data.onboardingComplete === true;
+}
+
+export async function setOnboardingComplete(): Promise<void> {
+  console.log("setOnboardingComplete")
+  await chrome.storage.local.set({ onboardingComplete: true });
 }

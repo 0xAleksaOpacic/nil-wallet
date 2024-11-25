@@ -1,14 +1,14 @@
 import {Text , VStack} from "@chakra-ui/react";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
-import { openPopup } from '../../../utils/util.ts';
+import { setOnboardingComplete } from '../../../utils/util.ts';
 import { useCallback } from 'react';
 
 
 const AllSet = () => {
 	const handleOpenPopup = useCallback(async () => {
 		try {
-			await openPopup();
+			await setOnboardingComplete();
 		} catch (error) {
 			console.error("Failed to open popup:", error);
 		}
@@ -33,7 +33,7 @@ const AllSet = () => {
 
 			{/* Bottom Section: Open Extension Button */}
 			<OnboardingButton onClick={handleOpenPopup}>
-				Open Extension
+				Open Wallet
 			</OnboardingButton>
 		</VStack>
 	);
