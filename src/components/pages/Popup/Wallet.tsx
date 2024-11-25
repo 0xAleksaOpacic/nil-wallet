@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { isOnboarded } from '../../../utils/util.ts';
 
 function Wallet() {
@@ -23,3 +23,6 @@ function Wallet() {
   </div>
 );
 }
+
+
+export default Wallet;

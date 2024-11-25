@@ -6,3 +6,7 @@ export const OnboardingRoutes = {
   SET_ENDPOINT: 'set-endpoint',
   ALL_SET: 'all-set',
 };
+
+export const PopupRoutes = {
+  BASE: '/',
+};
