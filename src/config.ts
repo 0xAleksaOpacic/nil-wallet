@@ -1,6 +1,6 @@
 
 // The number of shards in the =nil; blockchain, used for validation and other logic
-const DEFAULT_SHARDS = 5;
+const DEFAULT_SHARDS = 4;
 
 // Regular expression to validate the structure of the RPC endpoint URL
 // The format should be: https://api.devnet.nil.foundation/api/$NAME/$TOKEN

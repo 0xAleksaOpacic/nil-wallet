@@ -1,8 +1,18 @@
 import {Text , VStack} from "@chakra-ui/react";
 import OnboardingButton from "../../atoms/OnboardingButton.tsx";
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
+import { openPopup } from '../../../utils/util.ts';
+import { useCallback } from 'react';
+
 
 const AllSet = () => {
+	const handleOpenPopup = useCallback(async () => {
+		try {
+			await openPopup();
+		} catch (error) {
+			console.error("Failed to open popup:", error);
+		}
+	}, []);
 	return (
 		<VStack height={"100%"} justifyContent="space-between" align="center">
 			{/* Top Section: Icon and Title/Subtitles */}
@@ -22,7 +32,7 @@ const AllSet = () => {
 			</VStack>
 
 			{/* Bottom Section: Open Extension Button */}
-			<OnboardingButton onClick={() => { /* Handle open extension */ }}>
+			<OnboardingButton onClick={handleOpenPopup}>
 				Open Extension
 			</OnboardingButton>
 		</VStack>

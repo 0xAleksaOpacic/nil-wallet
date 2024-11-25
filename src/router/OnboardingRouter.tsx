@@ -8,7 +8,7 @@ import OnboardingLayout from '../components/layouts/OnboardingLayout';
 import SetEndpoint from "../components/pages/Onboarding/SetEndpoint.tsx";
 import { OnboardingRoutes } from './routes.ts';
 
-const AppRouter = () => (
+const OnboardingRouter = () => (
 	<BrowserRouter>
 		<Routes>
 			<Route path={OnboardingRoutes.BASE} element={<OnboardingLayout />}>
@@ -24,4 +24,4 @@ const AppRouter = () => (
 	</BrowserRouter>
 );
 
-export default AppRouter;
+export default OnboardingRouter;

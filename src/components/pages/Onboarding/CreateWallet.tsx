@@ -37,9 +37,13 @@ const CreateWallet = () => {
 			newErrors.privateKey = privateKeyValidation.error;
 		}
 
-		const shardValidation:ValidationResult = validateShardId(onboardingState.shardId);
-		if (!shardValidation.isValid) {
-			newErrors.shardId = shardValidation.error;
+		if (onboardingState.shardId !== null) {
+			const shardValidation: ValidationResult = validateShardId(onboardingState.shardId);
+			if (!shardValidation.isValid) {
+				newErrors.shardId = shardValidation.error;
+			}
+		} else {
+			newErrors.shardId = "Shard ID cannot be null.";
 		}
 
 		setErrors(newErrors);
