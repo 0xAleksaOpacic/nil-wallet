@@ -11,6 +11,7 @@ import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
 import { validatePasswordsMatch, ValidationResult } from '../../../utils/onboardingValidation.ts';
 import { OnboardingRoutes } from '../../../router/routes.ts';
+import { setOnboardingComplete } from '../../../utils/util.ts';
 
 const SetPassword = () => {
 	const navigate = useNavigate();
@@ -36,8 +37,9 @@ const SetPassword = () => {
 		}
 
 		setLoading(true);
-		setTimeout(() => {
+		setTimeout(async () => {
 			console.log(onboardingState);
+			await setOnboardingComplete();
 			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.ALL_SET}`)
 		}, 2000);
 	};

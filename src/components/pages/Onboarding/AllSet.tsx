@@ -1,18 +1,8 @@
-import {Text , VStack} from "@chakra-ui/react";
-import PrimaryButton from "../../atoms/PrimaryButton.tsx";
+import {Text , VStack, Image} from "@chakra-ui/react";
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
-import { setOnboardingComplete } from '../../../utils/util.ts';
-import { useCallback } from 'react';
 
 
 const AllSet = () => {
-	const handleOpenPopup = useCallback(async () => {
-		try {
-			await setOnboardingComplete();
-		} catch (error) {
-			console.error("Failed to open popup:", error);
-		}
-	}, []);
 	return (
 		<VStack height={"100%"} justifyContent="space-between" align="center">
 			{/* Top Section: Icon and Title/Subtitles */}
@@ -32,9 +22,11 @@ const AllSet = () => {
 			</VStack>
 
 			{/* Bottom Section: Open Extension Button */}
-			<PrimaryButton onClick={handleOpenPopup}>
-				Open Wallet
-			</PrimaryButton>
+			<Image
+				src="/images/openExtension.png"
+				alt="Open Extension"
+				width="100%"
+			/>
 		</VStack>
 	);
 };
