@@ -6,9 +6,8 @@ const PopUpFooter: React.FC = () => {
     <Box
       width="100%"
       height="30px"
-      borderTop="1px solid"
-      borderColor="gray.200"
       display="flex"
+      boxShadow="0px -2px 6px -1px rgba(0, 0, 0, 0.08)"
       justifyContent="center"
       alignItems="center"
       position="relative"

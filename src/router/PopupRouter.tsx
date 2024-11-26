@@ -1,6 +1,6 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { PopupRoutes } from './routes.ts';
-import Wallet from '../components/pages/Popup/Wallet.tsx';
+import WalletDetails from '../components/pages/Popup/WalletDetails.tsx';
 import PopUpLayout from '../components/layouts/PopUpLayout.tsx';
 
 
@@ -8,7 +8,7 @@ const PopUpRouter = () => (
   <HashRouter>
     <Routes>
       <Route path={PopupRoutes.BASE} element={<PopUpLayout />}>
-        <Route index element={<Wallet />} />
+        <Route index element={<WalletDetails />} />
       </Route>
       <Route path="*" element={<Navigate to={PopupRoutes.BASE}  />} />
     </Routes>
