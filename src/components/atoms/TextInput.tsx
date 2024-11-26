@@ -8,7 +8,7 @@ interface IOnboardingTextInputProps {
 	error?: string;
 }
 
-const OnboardingTextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder, isPassword, onChange, error }) => {
+const TextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder, isPassword, onChange, error }) => {
 	return (
 		<FormControl isInvalid={!!error}>
 		<Input
@@ -25,4 +25,4 @@ const OnboardingTextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder,
 	);
 };
 
-export default OnboardingTextInput;
+export default TextInput;

@@ -8,9 +8,9 @@ interface IOnboardingButtonProps {
 	children: React.ReactNode;
 }
 
-const OnboardingButton: React.FC<IOnboardingButtonProps> = ({ colorScheme = "blue", bg = "wallet.lightBlue", onClick, children }) => {
+const PrimaryButton: React.FC<IOnboardingButtonProps> = ({ colorScheme = "blue", bg = "wallet.lightBlue", onClick, children }) => {
 	return (
-		<Box width="90%">
+		<Box width="100%">
 			<Button
 				colorScheme={colorScheme}
 				bg={bg}
@@ -24,4 +24,4 @@ const OnboardingButton: React.FC<IOnboardingButtonProps> = ({ colorScheme = "blu
 	);
 };
 
-export default OnboardingButton;
+export default PrimaryButton;

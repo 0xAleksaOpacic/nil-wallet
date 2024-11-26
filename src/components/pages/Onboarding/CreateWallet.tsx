@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import {setPrivateKey, setShardId} from '../../../store/onboardingSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx";
-import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
+import TextInput from "../../atoms/TextInput.tsx";
 import newWalletIcon from '/icons/newWallet.svg';
 import { RootState } from '../../../store';
 import { validatePrivateKey, validateShardId, ValidationResult } from '../../../utils/onboardingValidation.ts';
@@ -65,7 +65,7 @@ const CreateWallet = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Private Key Input */}
-				<OnboardingTextInput
+				<TextInput
 					placeholder="Private Key"
 					onChange={handlePrivateKeyChange}
 					error={errors.privateKey}
@@ -92,9 +92,9 @@ const CreateWallet = () => {
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}
-			<OnboardingButton onClick={handleContinue}>
+			<PrimaryButton onClick={handleContinue}>
 				Continue
-			</OnboardingButton>
+			</PrimaryButton>
 		</VStack>
 	);
 };

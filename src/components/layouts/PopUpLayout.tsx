@@ -6,8 +6,8 @@ import PopUpHeader from '../organisms/PopUpHeader.tsx';
 const PopUpLayout = () => {
   return (
     <Box
-      width="300px" // Fixed width
-      height="330px" // Fixed height
+      width="350px" // Fixed width
+      height="450px" // Fixed height
       bg="white"
       boxShadow="2xl"
       display="flex"

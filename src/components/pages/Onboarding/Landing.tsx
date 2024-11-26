@@ -1,6 +1,6 @@
 import { VStack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
 import { OnboardingRoutes } from '../../../router/routes.ts';
 
@@ -20,13 +20,13 @@ const Landing = () => {
 
 			{/* Bottom Section: Buttons */}
 			<VStack spacing={4} width={"100%"}>
-				<OnboardingButton onClick={() => navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.CREATE_WALLET}`)}>
+				<PrimaryButton onClick={() => navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.CREATE_WALLET}`)}>
 					Create a wallet
-				</OnboardingButton>
+				</PrimaryButton>
 
-				<OnboardingButton colorScheme="gray" bg="wallet.lightGray" onClick={() => navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.IMPORT_WALLET}`)}>
+				<PrimaryButton colorScheme="gray" bg="wallet.lightGray" onClick={() => navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.IMPORT_WALLET}`)}>
 					I already have a wallet
-				</OnboardingButton>
+				</PrimaryButton>
 			</VStack>
 		</VStack>
 	);

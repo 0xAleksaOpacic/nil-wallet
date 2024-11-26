@@ -2,12 +2,17 @@ import { Box, Text, Image, HStack } from "@chakra-ui/react";
 import React from "react";
 import { truncateAddress } from "../../utils/address.ts";
 import ClickableImage from '../atoms/ClickableImage.tsx';
+import { focusOrCreateOnboardingTab } from '../../utils/util.ts';
+import { useNavigate } from 'react-router-dom';
+import { PopupRoutes } from '../../router/routes.ts';
 
 interface PopUpHeaderProps {
   address: string;
 }
 
 const PopUpHeader: React.FC<PopUpHeaderProps> = ({ address }) => {
+  const navigate = useNavigate();
+
   return (
     <Box
       width="100%"
@@ -23,7 +28,7 @@ const PopUpHeader: React.FC<PopUpHeaderProps> = ({ address }) => {
         src="/icons/network.svg"
         alt="Network Icon"
         boxSize="20px"
-        onClick={() => console.log("Network icon clicked!")}
+        onClick={() => navigate(PopupRoutes.NETWORK)}
       />
 
       {/* Center Text + Copy Icon */}
@@ -52,6 +57,7 @@ const PopUpHeader: React.FC<PopUpHeaderProps> = ({ address }) => {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        onClick={focusOrCreateOnboardingTab}
       >
         <Image src="/icons/exit.svg" alt="Exit" boxSize="20px" />
       </Box>

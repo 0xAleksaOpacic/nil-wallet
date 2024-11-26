@@ -3,8 +3,8 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setPrivateKey, setWalletAddress} from "../../../store/onboardingSlice.ts";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx";
-import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
+import TextInput from "../../atoms/TextInput.tsx";
 import importWalletIcon from '/icons/importWallet.svg';
 import { RootState } from '../../../store';
 import { useState } from 'react';
@@ -59,12 +59,12 @@ const ImportWallet = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Wallet Address Input */}
-				<OnboardingTextInput
+				<TextInput
 					placeholder="Wallet Address"
 					onChange={(e) => handleWalletAddressChange(e.target.value)}
 					error={errors.walletAddress}
 				/>
-				<OnboardingTextInput
+				<TextInput
 					placeholder="Private Key"
 					onChange={(e) => handlePrivateKeyChange(e.target.value)}
 					error={errors.privateKey}
@@ -72,9 +72,9 @@ const ImportWallet = () => {
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}
-			<OnboardingButton onClick={handleContinueClick}>
+			<PrimaryButton onClick={handleContinueClick}>
 				Continue
-			</OnboardingButton>
+			</PrimaryButton>
 		</VStack>
 	);
 };

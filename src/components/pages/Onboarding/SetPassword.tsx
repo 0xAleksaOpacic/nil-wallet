@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { setPassword, setConfirmPassword } from '../../../store/onboardingSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx";
-import OnboardingTextInput from "../../atoms/OnboardingTextInput.tsx";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
+import TextInput from "../../atoms/TextInput.tsx";
 import OnboardingCardLoader from "../../atoms/OnboardingCardLoader.tsx";
 import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
@@ -57,14 +57,14 @@ const SetPassword = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* Password Input */}
-				<OnboardingTextInput
+				<TextInput
 					placeholder="Enter Password"
 					isPassword={true}
 					onChange={handlePasswordChange}
 					error={error}
 				/>
 				{/* Confirm Password Input */}
-				<OnboardingTextInput
+				<TextInput
 					placeholder="Confirm Password"
 					isPassword={true}
 					onChange={handleConfirmPasswordChange}
@@ -73,9 +73,9 @@ const SetPassword = () => {
 			</VStack>
 
 			{/* Bottom Section: Start Button */}
-			<OnboardingButton onClick={handleStart}>
+			<PrimaryButton onClick={handleStart}>
 				Start
-			</OnboardingButton>
+			</PrimaryButton>
 		</VStack>
 	);
 };

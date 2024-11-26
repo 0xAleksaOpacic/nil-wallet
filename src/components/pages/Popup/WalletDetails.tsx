@@ -2,9 +2,12 @@ import { useEffect, useState } from 'react';
 import { Box, Text, IconButton } from '@chakra-ui/react';
 import { redirectToOnboardingIfNeeded } from '../../../utils/util.ts';
 import WalletButton from '../../atoms/WalletButton.tsx';
+import { useNavigate } from 'react-router-dom';
+import { PopupRoutes } from '../../../router/routes.ts';
 
 function WalletDetails() {
   const [balance, _] = useState('123 987 19374'); // Initial state for balance
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -45,13 +48,13 @@ function WalletDetails() {
           text="Send"
           color="wallet.darkGray"
           iconSrc="/icons/send.svg"
-          onClick={() => console.log('Send button clicked')}
+          onClick={() => navigate(PopupRoutes.SEND_TOKENS)}
         />
         <WalletButton
           text="Use Faucet"
           color="wallet.lightBlue"
           iconSrc="/icons/drop.svg"
-          onClick={() => console.log('Faucet button clicked')}
+          onClick={() => navigate(PopupRoutes.TOP_UP)}
         />
       </Box>
     </Box>

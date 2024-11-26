@@ -1,5 +1,5 @@
 import {Text , VStack} from "@chakra-ui/react";
-import OnboardingButton from "../../atoms/OnboardingButton.tsx";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
 import { setOnboardingComplete } from '../../../utils/util.ts';
 import { useCallback } from 'react';
@@ -32,9 +32,9 @@ const AllSet = () => {
 			</VStack>
 
 			{/* Bottom Section: Open Extension Button */}
-			<OnboardingButton onClick={handleOpenPopup}>
+			<PrimaryButton onClick={handleOpenPopup}>
 				Open Wallet
-			</OnboardingButton>
+			</PrimaryButton>
 		</VStack>
 	);
 };

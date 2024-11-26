@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
 import {setRpcEndpoint} from "../../../store/onboardingSlice.ts";
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader";
-import OnboardingButton from "../../atoms/OnboardingButton";
-import OnboardingTextInput from "../../atoms/OnboardingTextInput";
+import PrimaryButton from "../../atoms/PrimaryButton.tsx";
+import TextInput from "../../atoms/TextInput.tsx";
 import rpcIcon from '/icons/rpcEndpoint.svg';
 import { RootState } from '../../../store';
 import { useState } from 'react';
@@ -43,7 +43,7 @@ const SetRpcEndpoint = () => {
 			{/* Middle Section: Input Fields */}
 			<VStack spacing={4} align="center" width="90%" paddingY={4}>
 				{/* RPC Endpoint Input */}
-				<OnboardingTextInput
+				<TextInput
 					placeholder="RPC Endpoint"
 					onChange={handleEndpointChange}
 					error={error}
@@ -51,9 +51,9 @@ const SetRpcEndpoint = () => {
 			</VStack>
 
 			{/* Bottom Section: Continue Button */}
-			<OnboardingButton onClick={handleContinue}>
+			<PrimaryButton onClick={handleContinue}>
 				Continue
-			</OnboardingButton>
+			</PrimaryButton>
 		</VStack>
 	);
 };
