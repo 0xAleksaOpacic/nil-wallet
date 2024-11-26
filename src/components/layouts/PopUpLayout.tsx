@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
+import PopUpFooter from '../organisms/PopUpFooter.tsx';
 
 const PopUpLayout = () => {
   return (
@@ -8,11 +9,17 @@ const PopUpLayout = () => {
       height="480px" // Fixed height
       bg="white"
       boxShadow="2xl"
-      p={4}
       display="flex"
       flexDirection="column"
+      justifyContent="space-between"
     >
-      <Outlet />
+      {/* Main Content */}
+      <Box flex="1" overflow="auto">
+        <Outlet />
+      </Box>
+
+      {/* Footer */}
+      <PopUpFooter />
     </Box>
   );
 };

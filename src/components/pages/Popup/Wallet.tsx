@@ -1,19 +1,10 @@
 import { useEffect } from 'react';
-import { isOnboarded } from '../../../utils/util.ts';
+import { redirectToOnboardingIfNeeded } from '../../../utils/util.ts';
 
 function Wallet() {
   useEffect(() => {
     (async () => {
-      const onboarded = await isOnboarded();
-
-      if (!onboarded) {
-        // Redirect to onboarding tab
-        const onboardingUrl = chrome.runtime.getURL("onboarding.html");
-        await chrome.tabs.create({ url: onboardingUrl });
-
-        // Close the popup
-        window.close();
-      }
+      await redirectToOnboardingIfNeeded();
     })();
   }, []);
 
