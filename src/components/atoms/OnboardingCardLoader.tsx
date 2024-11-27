@@ -1,7 +1,11 @@
 import { Box, Spinner } from "@chakra-ui/react";
-import React from 'react';
+import React from "react";
 
-const OnboardingCardLoader: React.FC = () => {
+interface OnboardingCardLoaderProps {
+	borderRadius?: string; // Optional borderRadius prop
+}
+
+const OnboardingCardLoader: React.FC<OnboardingCardLoaderProps> = ({ borderRadius = "0" }) => {
 	return (
 		<Box
 			position="absolute"
@@ -14,7 +18,7 @@ const OnboardingCardLoader: React.FC = () => {
 			alignItems="center"
 			justifyContent="center"
 			zIndex={1}
-			borderRadius="35"
+			borderRadius={borderRadius}
 		>
 			<Spinner size="xl" color="white" />
 		</Box>
