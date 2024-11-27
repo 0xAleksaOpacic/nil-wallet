@@ -49,7 +49,7 @@ const SetRpcEndpoint = () => {
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
 			{/* Overlay */}
-			{loading && <OnboardingCardLoader />} {/* Add loader */}
+			{loading && <OnboardingCardLoader borderRadius="35"/>} {/* Add loader */}
 
 			{/* Top Section: Icon and Title/Subtitles */}
 			<OnboardingStepHeader

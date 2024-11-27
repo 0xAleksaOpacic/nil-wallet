@@ -7,11 +7,13 @@ import { PopupRoutes } from '../../../router/routes.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store';
 import { initializeFromStorageAndSetup } from '../../../background/state.ts';
+import { getBalance } from '../../../services/wallet.ts';
 
 function WalletDetails() {
   const navigate = useNavigate();
   const balance = useSelector((state: RootState) => state.wallet.balance);
   const dispatch = useDispatch();
+  const blockchain = useSelector((state: RootState) => state.blockchain);
 
   useEffect(() => {
     (async () => {
@@ -23,11 +25,16 @@ function WalletDetails() {
         await initializeFromStorageAndSetup(dispatch);
 
         console.log("Initialization and setup complete");
+
+        // Fetch the wallet balance once
+        if (blockchain.client && blockchain.wallet) {
+          await getBalance(blockchain.client, blockchain.wallet.address, dispatch);
+        }
       } catch (error) {
         console.error("Error during initialization:", error);
       }
     })();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Box
