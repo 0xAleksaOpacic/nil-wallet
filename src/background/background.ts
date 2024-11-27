@@ -1,4 +1,4 @@
-import { focusOrCreateOnboardingTab  } from './utils/util.ts';
+import { focusOrCreateOnboardingTab  } from './onboarding.ts';
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (reason === "install") {

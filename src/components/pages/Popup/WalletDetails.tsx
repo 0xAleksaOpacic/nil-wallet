@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box, Text, IconButton } from '@chakra-ui/react';
-import { redirectToOnboardingIfNeeded } from '../../../utils/util.ts';
+import { redirectToOnboardingIfNeeded } from '../../../background/onboarding.ts';
 import WalletButton from '../../atoms/WalletButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { PopupRoutes } from '../../../router/routes.ts';

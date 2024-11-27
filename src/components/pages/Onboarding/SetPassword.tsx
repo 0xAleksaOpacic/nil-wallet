@@ -11,7 +11,7 @@ import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
 import { validatePasswordsMatch, ValidationResult } from '../../../utils/onboardingValidation.ts';
 import { OnboardingRoutes } from '../../../router/routes.ts';
-import { setOnboardingComplete } from '../../../utils/util.ts';
+import { setOnboardingComplete } from '../../../background/onboarding.ts';
 
 const SetPassword = () => {
 	const navigate = useNavigate();

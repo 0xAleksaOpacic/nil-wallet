@@ -8,12 +8,12 @@ export default defineConfig({
 			input: {
 				popup: './popup.html',
 				onboarding: './onboarding.html',
-				background: './src/background.ts', // Include background.ts
+				background: './src/background/background.ts',
 			},
 			output: {
 				entryFileNames: (chunk) => {
 					if (chunk.name === 'background') {
-						return '[name].js'; // Ensure the output is background.js
+						return '[name].js';
 					}
 					return 'assets/[name].[hash].js';
 				},

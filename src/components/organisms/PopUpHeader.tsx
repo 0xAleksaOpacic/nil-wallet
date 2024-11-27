@@ -2,7 +2,7 @@ import { Box, Text, Image, HStack } from "@chakra-ui/react";
 import React from "react";
 import { truncateAddress } from "../../utils/address.ts";
 import ClickableImage from '../atoms/ClickableImage.tsx';
-import { focusOrCreateOnboardingTab } from '../../utils/util.ts';
+import { focusOrCreateOnboardingTab } from '../../background/onboarding.ts';
 import { useNavigate } from 'react-router-dom';
 import { PopupRoutes } from '../../router/routes.ts';
 
