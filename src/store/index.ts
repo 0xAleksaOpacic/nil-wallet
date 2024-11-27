@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import onboardingReducer from './onboardingSlice';
+import userReducer from './userSlice';
 import blockchainReducer from "./blockchainSlice";
 import walletReducer from "./walletSlice";
 
 const store = configureStore({
 	reducer: {
-		onboarding: onboardingReducer,
+		user: userReducer,
 		blockchain: blockchainReducer,
 		wallet: walletReducer,
 	},

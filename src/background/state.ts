@@ -8,6 +8,7 @@ import {
   initializeOrDeployWallet,
   setupBlockchainResources
 } from '../services/config.ts';
+import { setPrivateKey, setRpcEndpoint, setShardId, setWalletAddress } from '../store/userSlice.ts';
 
 export async function saveWalletBalance(balance: string): Promise<void> {
   try {
@@ -61,6 +62,10 @@ export async function initializeFromStorageAndSetup(dispatch): Promise<void> {
       dispatch(setClient(publicClient));
       dispatch(setSigner(signer));
       dispatch(setFaucet(faucet));
+      dispatch(setRpcEndpoint(rpcEndpoint))
+      dispatch(setShardId(shardId))
+      dispatch(setWalletAddress(wallet.address))
+      dispatch(setPrivateKey(privateKey))
 
       // Initialize blockchain resources
       await setupBlockchainResources(dispatch, blockchainFields);

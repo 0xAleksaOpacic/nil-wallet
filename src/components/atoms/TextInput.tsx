@@ -3,16 +3,18 @@ import React from 'react';
 
 interface IOnboardingTextInputProps {
 	placeholder: string;
+	value?: string;
 	isPassword?: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	error?: string;
 }
 
-const TextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder, isPassword, onChange, error }) => {
+const TextInput: React.FC<IOnboardingTextInputProps> = ({ placeholder,value, isPassword, onChange, error }) => {
 	return (
 		<FormControl isInvalid={!!error}>
 		<Input
 			placeholder={placeholder}
+			value={value !== undefined ? value : undefined}
 			bg="wallet.lightGray"
 			width="100%"
 			py={7}

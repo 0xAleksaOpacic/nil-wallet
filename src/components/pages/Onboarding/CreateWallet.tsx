@@ -1,13 +1,13 @@
 import { VStack, Select, FormErrorMessage, FormControl } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import {setPrivateKey, setShardId} from '../../../store/onboardingSlice.ts';
+import {setPrivateKey, setShardId} from '../../../store/userSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import TextInput from "../../atoms/TextInput.tsx";
 import newWalletIcon from '/icons/newWallet.svg';
 import { RootState } from '../../../store';
-import { validatePrivateKey, validateShardId, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import { validatePrivateKey, validateShardId, ValidationResult } from '../../../utils/userValidation.ts';
 import { useState } from 'react';
 import { OnboardingRoutes } from '../../../router/routes.ts';
 import { DEFAULT_SHARDS } from '../../../config.ts';
@@ -15,7 +15,7 @@ import { DEFAULT_SHARDS } from '../../../config.ts';
 const CreateWallet = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const onboardingState = useSelector((state: RootState) => state.onboarding);
+	const userState = useSelector((state: RootState) => state.user);
 	const [errors, setErrors] = useState({ shardId: "", privateKey: '' });
 
 
@@ -32,13 +32,13 @@ const CreateWallet = () => {
 	const handleContinue = () => {
 		let newErrors = { shardId: "", privateKey: '' }
 
-		const privateKeyValidation:ValidationResult = validatePrivateKey(onboardingState.privateKey);
+		const privateKeyValidation:ValidationResult = validatePrivateKey(userState.privateKey);
 		if (!privateKeyValidation.isValid) {
 			newErrors.privateKey = privateKeyValidation.error;
 		}
 
-		if (onboardingState.shardId !== null) {
-			const shardValidation: ValidationResult = validateShardId(onboardingState.shardId);
+		if (userState.shardId !== null) {
+			const shardValidation: ValidationResult = validateShardId(userState.shardId);
 			if (!shardValidation.isValid) {
 				newErrors.shardId = shardValidation.error;
 			}

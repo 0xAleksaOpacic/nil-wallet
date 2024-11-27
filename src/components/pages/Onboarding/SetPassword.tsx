@@ -2,20 +2,20 @@ import { VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { setPassword, setConfirmPassword } from '../../../store/onboardingSlice.ts';
+import { setPassword, setConfirmPassword } from '../../../store/userSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import TextInput from "../../atoms/TextInput.tsx";
 import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
-import { validatePasswordsMatch, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import { validatePasswordsMatch, ValidationResult } from '../../../utils/userValidation.ts';
 import { OnboardingRoutes } from '../../../router/routes.ts';
 import { setOnboardingComplete } from '../../../background/onboarding.ts';
 
 const SetPassword = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const onboardingState = useSelector((state: RootState) => state.onboarding);
+	const userState = useSelector((state: RootState) => state.user);
 	const [error, setError] = useState('');
 
 	const handlePasswordChange = (event) => {
@@ -28,13 +28,13 @@ const SetPassword = () => {
 	};
 
 	const handleStart = async () => {
-		const passwordValidation: ValidationResult = validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword);
+		const passwordValidation: ValidationResult = validatePasswordsMatch(userState.password, userState.confirmPassword);
 		if (!passwordValidation.isValid) {
 			setError(passwordValidation.error);
 			return;
 		}
 
-		console.log(onboardingState);
+		console.log(userState);
 		await setOnboardingComplete();
 		navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.ALL_SET}`)
 	};

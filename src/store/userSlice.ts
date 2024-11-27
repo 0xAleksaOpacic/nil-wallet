@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface OnboardingState {
+interface UserState {
 	walletAddress: string;
 	privateKey: string;
 	rpcEndpoint: string;
@@ -9,7 +9,7 @@ interface OnboardingState {
 	shardId: number | null;
 }
 
-const initialState: OnboardingState = {
+const initialState: UserState = {
 	walletAddress: '',
 	privateKey: '',
 	rpcEndpoint: '',
@@ -18,8 +18,8 @@ const initialState: OnboardingState = {
 	shardId: null
 };
 
-const onboardingSlice = createSlice({
-	name: 'onboarding',
+const userSlice = createSlice({
+	name: 'user',
 	initialState,
 	reducers: {
 		setWalletAddress(state, action: PayloadAction<string>) {
@@ -50,6 +50,6 @@ export const {
 	setPassword,
 	setConfirmPassword,
 	setShardId
-} = onboardingSlice.actions;
+} = userSlice.actions;
 
-export default onboardingSlice.reducer;
+export default userSlice.reducer;

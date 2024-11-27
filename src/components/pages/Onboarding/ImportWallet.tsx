@@ -1,7 +1,7 @@
 import {VStack } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import { setPrivateKey, setShardId, setWalletAddress } from '../../../store/onboardingSlice.ts';
+import { setPrivateKey, setShardId, setWalletAddress } from '../../../store/userSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import TextInput from "../../atoms/TextInput.tsx";
@@ -13,24 +13,24 @@ import {
 	validatePrivateKey,
 	validateWalletAddress,
 	ValidationResult
-} from '../../../utils/onboardingValidation.ts';
+} from '../../../utils/userValidation.ts';
 import { OnboardingRoutes } from '../../../router/routes.ts';
 
 const ImportWallet = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const onboardingState = useSelector((state: RootState) => state.onboarding);
+	const userState = useSelector((state: RootState) => state.user);
 	const [errors, setErrors] = useState({ walletAddress: '', privateKey: '' });
 
 	const handleContinueClick = () => {
 		let newErrors = { walletAddress: '', privateKey: '' };
 
-		const walletValidation:ValidationResult = validateWalletAddress(onboardingState.walletAddress);
+		const walletValidation:ValidationResult = validateWalletAddress(userState.walletAddress);
 		if (!walletValidation.isValid) {
 			newErrors.walletAddress = walletValidation.error;
 		}else{
 			// Extract Shard ID from Wallet Address
-			const shardId = extractShardIdFromAddress(onboardingState.walletAddress);
+			const shardId = extractShardIdFromAddress(userState.walletAddress);
 
 			// Handle Invalid Shard ID
 			if (typeof shardId === "string") {
@@ -41,14 +41,14 @@ const ImportWallet = () => {
 			}
 		}
 
-		const privateKeyValidation:ValidationResult = validatePrivateKey(onboardingState.privateKey);
+		const privateKeyValidation:ValidationResult = validatePrivateKey(userState.privateKey);
 		if (!privateKeyValidation.isValid) {
 			newErrors.privateKey = privateKeyValidation.error;
 		}
 
 		setErrors(newErrors);
 
-		console.log("State: ", onboardingState)
+		console.log("State: ", userState)
 
 		if (!newErrors.walletAddress && !newErrors.privateKey) {
 			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.SET_ENDPOINT}`);
