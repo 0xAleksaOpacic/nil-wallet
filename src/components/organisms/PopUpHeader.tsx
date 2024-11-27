@@ -1,17 +1,26 @@
 import { Box, Text, Image, HStack } from "@chakra-ui/react";
-import React from "react";
 import { truncateAddress } from "../../utils/address.ts";
 import ClickableImage from '../atoms/ClickableImage.tsx';
 import { focusOrCreateOnboardingTab } from '../../background/onboarding.ts';
 import { useNavigate } from 'react-router-dom';
 import { PopupRoutes } from '../../router/routes.ts';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
-interface PopUpHeaderProps {
-  address: string;
-}
-
-const PopUpHeader: React.FC<PopUpHeaderProps> = ({ address }) => {
+const PopUpHeader = () => {
   const navigate = useNavigate();
+  const wallet = useSelector((state: RootState) => state.blockchain.wallet);
+
+  const handleCopy = async () => {
+    if (wallet?.address) {
+      try {
+        await navigator.clipboard.writeText(wallet.address);
+        console.log("Address copied to clipboard:", wallet.address);
+      } catch (error) {
+        console.error("Failed to copy address:", error);
+      }
+    }
+  };
 
   return (
     <Box
@@ -34,11 +43,12 @@ const PopUpHeader: React.FC<PopUpHeaderProps> = ({ address }) => {
       {/* Center Text + Copy Icon */}
       <HStack spacing={2} flex="1" justifyContent="center">
         <Text fontSize="sm" color="gray.600">
-          {truncateAddress(address)}
+          {wallet?.address ? truncateAddress(wallet.address) : "No Address"}
         </Text>
         {/* Copy Icon */}
         <Box
           as="button"
+          onClick={handleCopy}
           _hover={{ transform: "scale(1.1)", cursor: "pointer" }}
           _active={{ transform: "scale(0.95)" }}
           display="flex"

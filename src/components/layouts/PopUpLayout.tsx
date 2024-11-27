@@ -15,7 +15,7 @@ const PopUpLayout = () => {
       justifyContent="space-between"
     >
       {/* Header */}
-      <PopUpHeader address={"0x00019c87785897cd395cf924c927ca114551c533"}/>
+      <PopUpHeader/>
 
       {/* Main Content */}
       <Box flex="1" overflow="auto">
