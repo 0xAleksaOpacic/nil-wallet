@@ -6,11 +6,22 @@ export type ValidationResult = {
 	isValid: boolean;
 };
 
+// Validates if the shard ID is within the valid range
 export const validateShardId = (shardId: number):ValidationResult  => {
 	if (shardId >= 1 && shardId <= DEFAULT_SHARDS) {
 		return { isValid: true, error: "" };
 	}
 	return { isValid: false, error: `Shard ID must be between 1 and ${DEFAULT_SHARDS}` };
+};
+
+// Extracts the shard ID from the provided wallet address
+export const extractShardIdFromAddress = (walletAddress: string): number | string => {
+	try {
+		const shardId = parseInt(walletAddress.slice(2, 6), 10);
+		return shardId > 0 ? shardId : "Invalid shard ID";
+	} catch {
+		return "Invalid shard ID";
+	}
 };
 
 // Validates if the provided wallet address is valid

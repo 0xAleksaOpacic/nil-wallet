@@ -6,7 +6,6 @@ import { setPassword, setConfirmPassword } from '../../../store/onboardingSlice.
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import TextInput from "../../atoms/TextInput.tsx";
-import OnboardingCardLoader from "../../atoms/OnboardingCardLoader.tsx";
 import lockIcon from '/icons/lock.svg';
 import { RootState } from '../../../store';
 import { validatePasswordsMatch, ValidationResult } from '../../../utils/onboardingValidation.ts';
@@ -17,7 +16,6 @@ const SetPassword = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const onboardingState = useSelector((state: RootState) => state.onboarding);
-	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 
 	const handlePasswordChange = (event) => {
@@ -29,25 +27,20 @@ const SetPassword = () => {
 		dispatch(setConfirmPassword(event.target.value));
 	};
 
-	const handleStart = () => {
-		const passwordValidation:ValidationResult = validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword);
+	const handleStart = async () => {
+		const passwordValidation: ValidationResult = validatePasswordsMatch(onboardingState.password, onboardingState.confirmPassword);
 		if (!passwordValidation.isValid) {
 			setError(passwordValidation.error);
 			return;
 		}
 
-		setLoading(true);
-		setTimeout(async () => {
-			console.log(onboardingState);
-			await setOnboardingComplete();
-			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.ALL_SET}`)
-		}, 2000);
+		console.log(onboardingState);
+		await setOnboardingComplete();
+		navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.ALL_SET}`)
 	};
 
 	return (
 		<VStack height={"100%"} justifyContent="space-between">
-			{/* Overlay */}
-			{loading && <OnboardingCardLoader />}
 
 			{/* Top Section: Icon and Title/Subtitles */}
 			<OnboardingStepHeader

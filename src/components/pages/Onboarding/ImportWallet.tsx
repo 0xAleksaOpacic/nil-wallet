@@ -1,14 +1,19 @@
 import {VStack } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setPrivateKey, setWalletAddress} from "../../../store/onboardingSlice.ts";
+import { setPrivateKey, setShardId, setWalletAddress } from '../../../store/onboardingSlice.ts';
 import OnboardingStepHeader from "../../organisms/OnboardingStepHeader.tsx";
 import PrimaryButton from "../../atoms/PrimaryButton.tsx";
 import TextInput from "../../atoms/TextInput.tsx";
 import importWalletIcon from '/icons/importWallet.svg';
 import { RootState } from '../../../store';
 import { useState } from 'react';
-import { validatePrivateKey, validateWalletAddress, ValidationResult } from '../../../utils/onboardingValidation.ts';
+import {
+	extractShardIdFromAddress,
+	validatePrivateKey,
+	validateWalletAddress,
+	ValidationResult
+} from '../../../utils/onboardingValidation.ts';
 import { OnboardingRoutes } from '../../../router/routes.ts';
 
 const ImportWallet = () => {
@@ -23,6 +28,17 @@ const ImportWallet = () => {
 		const walletValidation:ValidationResult = validateWalletAddress(onboardingState.walletAddress);
 		if (!walletValidation.isValid) {
 			newErrors.walletAddress = walletValidation.error;
+		}else{
+			// Extract Shard ID from Wallet Address
+			const shardId = extractShardIdFromAddress(onboardingState.walletAddress);
+
+			// Handle Invalid Shard ID
+			if (typeof shardId === "string") {
+				newErrors.walletAddress = shardId; // Add the error message from extractShardIdFromAddress
+			} else {
+				// Dispatch Shard ID to State
+				dispatch(setShardId(shardId));
+			}
 		}
 
 		const privateKeyValidation:ValidationResult = validatePrivateKey(onboardingState.privateKey);
@@ -31,6 +47,8 @@ const ImportWallet = () => {
 		}
 
 		setErrors(newErrors);
+
+		console.log("State: ", onboardingState)
 
 		if (!newErrors.walletAddress && !newErrors.privateKey) {
 			navigate(`${OnboardingRoutes.BASE}/${OnboardingRoutes.SET_ENDPOINT}`);
