@@ -1,19 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Box, Text, IconButton } from '@chakra-ui/react';
 import { redirectToOnboardingIfNeeded } from '../../../background/onboarding.ts';
 import WalletButton from '../../atoms/WalletButton.tsx';
 import { useNavigate } from 'react-router-dom';
 import { PopupRoutes } from '../../../router/routes.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { initializeFromStorageAndSetup } from '../../../background/state.ts';
 
 function WalletDetails() {
-  const [balance, _] = useState('123 987 19374'); // Initial state for balance
   const navigate = useNavigate();
+  const balance = useSelector((state: RootState) => state.wallet.balance);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      await redirectToOnboardingIfNeeded();
+      try {
+        // Check onboarding status
+        await redirectToOnboardingIfNeeded();
+
+        // Initialize data from storage
+        await initializeFromStorageAndSetup(dispatch);
+
+        console.log("Initialization and setup complete");
+      } catch (error) {
+        console.error("Error during initialization:", error);
+      }
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box

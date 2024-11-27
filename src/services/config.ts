@@ -7,6 +7,8 @@ import {
 } from '@nilfoundation/niljs';
 import { setClient, setSigner, setWallet, setFaucet } from "../store/blockchainSlice";
 import { generateRandomSalt } from '../utils/salt.ts';
+import { setBalance } from '../store/walletSlice.ts';
+import { saveUserDetails, saveWalletBalance } from '../background/state.ts';
 
 
 export function createClient({
@@ -81,7 +83,16 @@ export async function initializeOrDeployWallet({
 export async function setupBlockchainResources(dispatch, onboardingState): Promise<void> {
   const { rpcEndpoint, shardId, walletAddress, privateKey } = onboardingState;
 
-  if (!shardId) throw new Error("Shard ID is required.");
+  // Validate required fields
+  if (!rpcEndpoint) {
+    throw new Error("RPC Endpoint is required");
+  }
+  if (!shardId) {
+    throw new Error("Shard ID is required");
+  }
+  if (!privateKey) {
+    throw new Error("Private key is required");
+  }
 
   // Create client
   const client = createClient({ rpcEndpoint, shardId });
@@ -99,15 +110,26 @@ export async function setupBlockchainResources(dispatch, onboardingState): Promi
   const faucet = createFaucet(client);
   dispatch(setFaucet(faucet));
 
-  await ensureClientInitialization(client, wallet.address)
+  await saveUserDetails({
+    rpcEndpoint,
+    shardId,
+    privateKey,
+    walletAddress: wallet.address,
+  });
+  await ensureClientInitialization(client, wallet.address, dispatch)
 }
 
 // Ensures the client is initialized and logs balance and code for the given address
-export async function ensureClientInitialization(client: PublicClient, address: string): Promise<void> {
+export async function ensureClientInitialization(client: PublicClient, address: string, dispatch: Function): Promise<void> {
   try {
     // Fetch balance
     const balance = await client.getBalance((address as Hex), "latest");
     console.log(`Balance for address ${address}:`, balance.toString());
+
+    await saveWalletBalance(balance.toString())
+
+    // Dispatch the balance to Redux
+    dispatch(setBalance(balance.toString()));
 
     // Fetch code
     const code = await client.getCode(address as Hex, "latest");
