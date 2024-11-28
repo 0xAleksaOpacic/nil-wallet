@@ -11,5 +11,6 @@ export const PopupRoutes = {
   BASE: '/',
   TOP_UP: 'top-up',
   SEND_TOKENS: 'send-tokens',
-  NETWORK: 'network'
+  NETWORK: 'network',
+  SIGN_SEND: 'sign-send'
 };

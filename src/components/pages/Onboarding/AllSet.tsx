@@ -1,5 +1,4 @@
 import {Text , VStack, Image} from "@chakra-ui/react";
-import ExtensionIcon from "../../atoms/ExtensionIcon.tsx";
 
 
 const AllSet = () => {
@@ -7,9 +6,6 @@ const AllSet = () => {
 		<VStack height={"100%"} justifyContent="space-between" align="center">
 			{/* Top Section: Icon and Title/Subtitles */}
 			<VStack spacing={2} align="center" paddingTop={8}>
-				{/* Icon */}
-				<ExtensionIcon size="150px" />
-
 				{/* Title and Subtitle */}
 				<VStack align="center">
 					<Text fontSize="3xl" fontWeight="bold" textAlign="center">
