@@ -10,6 +10,20 @@ import { PublicClient, WalletV1, Hex, waitTillCompleted } from "@nilfoundation/n
 import { initializeFromStorageAndSetup } from '../../../background/state.ts';
 import { useNavigate } from 'react-router-dom';
 import { PopupRoutes } from '../../../router/routes.ts';
+import { z } from "zod";
+
+// Define the schema for validation
+const ExtensionResponseSchema = z.object({
+  requestId: z.string(),
+  result: z.any().optional(),
+  error: z.any().optional(),
+});
+
+interface TransactionData {
+  to: string;
+  value: string;
+  data: string;
+}
 
 const SignAndSend: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +34,40 @@ const SignAndSend: React.FC = () => {
 
   const client = useSelector((state: RootState) => state.blockchain.client) as PublicClient;
   const wallet = useSelector((state: RootState) => state.blockchain.wallet) as WalletV1;
+
+  const [requestData, setRequestData] = useState<TransactionData | null>(null);
+  const [requestId, setRequestId] = useState("");
+
+
+  useEffect(() => {
+    const fetchTransactionData = async () => {
+      const hash = window.location.hash; // e.g., "#/sign-send?requestId=123"
+      const queryString = hash.split("?")[1]; // Extract "requestId=123"
+      const urlParams = new URLSearchParams(queryString); // Parse query string
+
+      console.log("Parsed URL Params:", Array.from(urlParams.entries()));
+
+      const requestId = urlParams.get("requestId");
+
+
+      if (!requestId) {
+        setError("No requestId provided in the URL.");
+        return;
+      }
+      setRequestId(requestId)
+      const storageKey = `window-${requestId}`;
+      const data = await chrome.storage.local.get(storageKey);
+
+      if (!data[storageKey]) {
+        setError("No transaction data found for the provided requestId.");
+        return;
+      }
+      console.log(data[storageKey])
+      setRequestData(data[storageKey]);
+    };
+
+    fetchTransactionData();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -43,45 +91,64 @@ const SignAndSend: React.FC = () => {
     setLoading(true);
 
     try {
-      // Retrieve transaction data from Chrome storage
-      const { transactionData } = await chrome.storage.local.get("transactionData");
-
-      if (!transactionData) {
-        throw new Error("No transaction data found");
+      if (!requestData) {
+        setError("Transaction data is missing.");
+        return;
       }
 
-      console.log(transactionData)
-
-      const { to, value, data } = transactionData;
+      const { to, value, data } = requestData;
 
       console.log("Signing and sending transaction...");
+
+      console.log(to)
+      console.log(value)
+      console.log(data)
       const hash = await wallet.sendMessage({
         to: to as Hex,
         value: BigInt(value),
-        data: data,
+        data: data as Hex,
         feeCredit: 10_000_000n,
       });
 
+      console.log(hash)
+
       await waitTillCompleted(client, hash);
 
-      console.log(hash)
+      console.log("Transaction sent successfully!");
 
       // Fetch updated balance and update Redux
       await getBalance(client, wallet.address, dispatch);
 
-      console.log("Transaction sent successfully!");
-      // Respond back to the sender (frontend via port or messaging)
-      //const port = chrome.runtime.connect({ name: "signAndSend" });
-      //port.postMessage({ status: "success", transactionHash: hash });
+      // Construct the response object
+      const response = {
+        requestId: requestId, // Ensure requestId is available in your logic
+        result: {
+          status: "success",
+          transactionHash: hash,
+          timestamp: new Date().toISOString(),
+        },
+      };
 
+      // Validate the response against the schema
+      const validatedResponse = ExtensionResponseSchema.parse(response);
+
+      // Send response back to the background script
       const port = chrome.runtime.connect({ name: "signAndSend" });
-      port.postMessage({ status: "success", transactionHash: hash });
+      port.postMessage(validatedResponse);
+
       setLoading(false);
+
+      setTimeout(() => {
+        window.close();
+      }, 100);
       navigate(PopupRoutes.BASE);
     } catch (err) {
       console.error("Error sending transaction:", err);
       setError("Failed to sign and send the transaction. Please try again.");
       setLoading(false);
+
+      const port = chrome.runtime.connect({ name: "signAndSend" });
+      port.postMessage({ status: "error", message: err });
     }
   };
 

@@ -1,4 +1,6 @@
-import { focusOrCreateOnboardingTab  } from './onboarding.ts';
+import { focusOrCreateOnboardingTab } from './onboarding.ts';
+import { ExtensionResponse } from '../contentScripts/types.ts';
+import { ACTIONS } from './constants.ts';
 
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   if (reason === "install") {
@@ -7,82 +9,96 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   }
 });
 
-// Listen for incoming messages from the frontend
-chrome.runtime.onMessageExternal.addListener(async (message, _, sendResponse) => {
-  console.log("Message received from frontend1111:", message);
+async function openPopupWindow(requestId) {
+  const popupWidth = 350;
+  const popupHeight = 480;
 
-  switch (message.action) {
-    case "signAndSend":
-      console.log("Sign and Send request received with payload:", message.payload);
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-      // Save the transaction data
-      transactionData = message.payload;
-
-      // Set transaction data
-      await chrome.storage.local.set({ transactionData: transactionData });
-
-      // Open the popup page for signing and sending
-      // Dynamically set the popup page
-      chrome.action.setPopup({ popup: "popup.html#/sign-send" });
-
-      // Keep the connection open
-      sendResponse({ status: "success", message: "Popup opened." });
-      break;
-
-    default:
-      console.warn("Unknown action received:", message.action);
-      sendResponse({ status: "error", message: "Unknown action!" });
-      break;
+  if (!activeTab) {
+    console.error("No active tab found.");
+    return;
   }
 
-  // Return true to indicate asynchronous response
-  return true;
-});
+  const currentWindow = await chrome.windows.getCurrent();
 
-
-
-// Store transaction data
-let transactionData: { to: string; value: string; data: string } | null = null;
-let activePort: chrome.runtime.Port | null = null;
-// Handle port connections
-chrome.runtime.onConnectExternal.addListener((port) => {
-  if (port.name === "signAndSend") {
-    console.log("Set Active port:", port.name);
-    activePort = port;
-
-    // Handle port disconnection
-    port.onDisconnect.addListener(() => {
-      console.log("External port disconnected");
-      if (activePort === port) {
-        activePort = null; // Clear activePort only if it matches the disconnected port
-      }
-    });
+  if (!currentWindow) {
+    console.error("No current window found.");
+    return;
   }
-});
+
+  const left = Math.round(currentWindow.left! + (currentWindow.width! - popupWidth) / 2);
+  const top = Math.round(currentWindow.top! + (currentWindow.height! - popupHeight) / 2);
+
+  // Pass `requestId` in the URL as a query parameter
+  await chrome.windows.create({
+    url: chrome.runtime.getURL(`popup.html#/sign-send?requestId=${requestId}`),
+    type: "popup",
+    width: popupWidth,
+    height: popupHeight,
+    left,
+    top,
+  });
+}
+
+// Function to save request data into Chrome's local storage
+const saveRequestData = async (requestId, requestData) => {
+  try{
+  const storageKey = `window-${requestId}`;
+  await chrome.storage.local.set({ [storageKey]: requestData });
+  }catch(err){
+    console.log(err)
+  }
+};
+
+// Map to store requestId -> port mappings
+const requestPortMap = new Map();
 
 chrome.runtime.onConnect.addListener((port) => {
-  if (port.name === "signAndSend") {
-    console.log("Internal port connected");
+  console.log("Background: Port connected", port.name);
 
-    // Send the transaction data to the internal frontend
-    port.postMessage({
-      action: "init",
-      payload: transactionData,
+  if (port.name === "extension-handler") {
+    port.onMessage.addListener(async (message) => {
+      console.log("Background: Received message from content script:", message);
+
+      const requestId = message.request.requestId;
+      const { to, value, data } = message.request.params[0];
+
+      // Prepare the data to be saved
+      const requestData = { to, value, data };
+      if (requestId) {
+        // Associate requestId with the content script port
+        requestPortMap.set(requestId, port);
+      }
+
+      // Process the request and open the popup
+      await saveRequestData(requestId, requestData)
+      await openPopupWindow(requestId)
     });
 
-    // Forward messages from the internal port to the external port
-    port.onMessage.addListener((msg) => {
-      console.log("Message from internal frontend:", msg);
+    port.onDisconnect.addListener(() => {
+      console.log("Background: Content script port disconnected");
+    });
+  }
 
-      if (activePort) {
-        activePort.postMessage(msg);
-        chrome.action.setPopup({ popup: "popup.html" });
+  if (port.name === "signAndSend") {
+    port.onMessage.addListener((message) => {
+      console.log("Background: Received message from popup:", message);
+
+      const { requestId } = message;
+
+      // Find the associated port using requestId
+      const targetPort = requestPortMap.get(requestId);
+      if (targetPort) {
+        targetPort.postMessage(message); // Forward the message to the original content script
+        requestPortMap.delete(requestId); // Clean up after forwarding
+      } else {
+        console.error(`No port found for requestId: ${requestId}`);
       }
     });
 
-    // Handle port disconnection
     port.onDisconnect.addListener(() => {
-      console.log("Internal port disconnected");
+      console.log("Background: Popup port disconnected");
     });
   }
 });

@@ -8,16 +8,16 @@ export default defineConfig({
 			input: {
 				popup: './popup.html',
 				onboarding: './onboarding.html',
-				background: './src/background/background.ts',
+				background: './src/background/background.ts'
 			},
 			output: {
 				entryFileNames: (chunk) => {
-					if (chunk.name === 'background') {
+					if (chunk.name === 'background' || chunk.name === 'injected' || chunk.name === 'ethereum') {
 						return '[name].js';
 					}
 					return 'assets/[name].[hash].js';
 				},
 			},
 		},
-	},
+	}
 });
